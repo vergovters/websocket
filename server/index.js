@@ -1,5 +1,6 @@
 const http = require('http');
 const WebSocket = require('ws');
+const axios = require("axios")
 
 const wss = new WebSocket.Server({ noServer: true });
 
@@ -17,8 +18,8 @@ wss.on('connection', function connection(ws) {
     });
 });
 
-function broadcastMessage(message) {
-    wss.clients.forEach(client => {
+ function broadcastMessage(message) {
+    wss.clients.forEach(async (client, index) => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify(message));
         }
